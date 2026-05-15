@@ -1,0 +1,129 @@
+---
+title: "1. Problematyka braków danych"
+format:
+  html:
+    embed-resources: true
+    table-of-contents: true
+    number-sections: true
+editor: source
+execute:
+  eval: true
+  warning: false
+  message: false
+lang: pl
+---
+
+# Wczytanie potrzebych pakietów
+
+
+
+```{r packages, message=F, warning=F}
+library(VIM)
+library(naniar)
+library(panelView)
+library(ggplot2)
+library(data.table)
+library(tidyverse)
+```
+
+# Przykład 1: dane przekrojowe
+
+Wczytujemy zbiór danych `data2-cross_sectional.csv`
+
+```{r}
+df_cross <- read.csv("../../data/data2-cross_sectional.csv")
+head(df_cross)
+```
+
+Proste podsumowanie
+
+```{r}
+summary(df_cross)
+```
+
+Wizualizacja z pakietem `VIM`
+
+```{r}
+vim_result <- aggr(x = df_cross)
+```
+
+```{r}
+summary(vim_result)
+```
+
+Wizualizacja z pakietem `naniar`.
+
+```{r}
+vis_miss(df_cross)
+```
+```{r}
+vis_miss(df_cross, cluster = T, sort_miss = T)
+```
+```{r}
+gg_miss_var(df_cross)
+```
+```{r}
+gg_miss_upset(df_cross)
+```
+
+```{r}
+ggplot(data=df_cross, aes(x = x1, y)) + geom_point()
+```
+
+```{r}
+ggplot(data=df_cross, aes(x = x1, y)) + geom_miss_point()
+```
+
+
+# Przykład 2: dane panelowe
+
+Wczytujemy dane w dwóch formatach: `data/data2-panel_long.csv`, `data/data2-panel_wide.csv`
+
+
+```{r}
+df_long <- read.csv("../../data/data2-panel_long.csv")
+head(df_long)
+```
+
+```{r}
+df_wide <- read.csv("../../data/data2-panel_wide.csv")
+head(df_wide)
+```
+
+```{r}
+VIM::aggr(df_wide)
+```
+
+Przykład przejścia z danych long na wide (z `data.table`)
+
+```{r}
+df_long |>
+  subset(select=c(unit_id, year, y)) |>
+  setDT() |> 
+  dcast(unit_id ~ year, value.var = "y") |>
+  VIM::aggr(plot = F)  |>
+  summary()
+```
+
+Przykład przejścia z danych long na wide (z `tidyverse`)
+
+```{r}
+df_long |>
+  select(unit_id, year, y) |>
+  pivot_wider(names_from = year, values_from = y) |>
+  VIM::aggr(plot = F) |>
+  summary()
+```
+
+```{r}
+panelview(data = df_long, formula = y ~ 1, index = c("unit_id", "year"), type = "missing")
+```
+
+```{r}
+panelview(data = df_long, formula = x2 ~ 1, index = c("unit_id", "year"), type = "missing")
+```
+```{r}
+panelview(data = df_long, formula = 1 ~ y + x1 + x2, index = c("unit_id", "year"), type = "missing")
+```
+
+

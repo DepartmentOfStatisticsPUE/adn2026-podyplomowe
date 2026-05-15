@@ -1,0 +1,84 @@
+
+# # Wczytanie potrzebnych pakietów
+
+library(readxl)
+library(glmnet)
+
+
+
+# # Ważenie przez odwrotność -- metoda podstawowa 
+
+# Wykorzystamy wyłącznie regresję logistyczną bez i z LASSO.
+
+# Wczytujemy przykładowe dane
+
+gosp <- read_excel("data/gospodarstwa-zajecia.xlsx")
+gosp <- transform(gosp, 
+                  klm = as.factor(klm),
+                  woj = as.factor(woj))
+head(gosp)
+
+
+# W dwóch zmiennych mamy braki danych
+
+summary(gosp[, c("dochg", "wydg")])
+
+
+# Zmienna określająda odpowiedź
+
+gosp$R <- !is.na(gosp$dochg)
+
+
+# Model podstawowy
+
+m1 <- glm(R ~ klm + woj, data = gosp, family = binomial())
+summary(predict(m1, type = "response"))
+
+
+gosp$w_rho <- 1/predict(m1, gosp, type="response")
+
+
+# Porównamy szacunki
+
+c(mean(gosp$dochg, na.rm=T), weighted.mean(gosp$dochg, gosp$w_rho, na.rm=T))
+
+
+# Teraz LASSO
+
+set.seed(2026)
+m2 <- cv.glmnet(x = model.matrix(~ klm + woj, gosp), 
+                y = gosp$R, 
+                family = "binomial")
+coef(m2)
+
+
+gosp$w_rho_lasso <- 1/as.numeric(predict(m2, newx = model.matrix(~ klm + woj, gosp), type="response", s = m2$lambda.min))
+
+
+# Porównamy szacunki
+
+c(bez = mean(gosp$dochg, na.rm=T), 
+  glm = weighted.mean(gosp$dochg, gosp$w_rho, na.rm=T),
+  lasso = weighted.mean(gosp$dochg, gosp$w_rho_lasso, na.rm=T))
+
+
+# Jak wyglądają wagi?
+
+summary(gosp[, c("w_rho", "w_rho_lasso")])
+
+
+plot(gosp$w_rho, gosp$w_rho_lasso)
+
+
+
+# ## Zadania
+
+# + Zadanie 1: Analiza braków danych w zmiennej `wydg`
+
+# Powtórz całą analizę (model GLM i LASSO) dla zmiennej `wydg` zamiast `dochg`. Porównaj uzyskane wagi oraz oszacowania średniej. Czy wyniki różnią się istotnie od tych dla zmiennej `dochg`?
+
+# + Zadanie 2: Rozszerzenie modelu skłonności
+
+# Dodaj do modelu skłonności (`m1`) dodatkowe zmienne objaśniające dostępne w zbiorze danych (np. interakcje między `klm` a `woj`). Sprawdź, jak zmienia się rozkład wag oraz oszacowanie średniej `dochg`. Czy bardziej złożony model daje lepsze wyniki?
+
+
