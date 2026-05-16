@@ -30,47 +30,47 @@ library(tidyverse)
 
 Wczytujemy zbiór danych `data2-cross_sectional.csv`
 
-```{r}
+```{r wczytanie-cross}
 df_cross <- read.csv("../../data/data2-cross_sectional.csv")
 head(df_cross)
 ```
 
 Proste podsumowanie
 
-```{r}
+```{r summary-cross}
 summary(df_cross)
 ```
 
 Wizualizacja z pakietem `VIM`
 
-```{r}
+```{r vim-aggr}
 vim_result <- aggr(x = df_cross)
 ```
 
-```{r}
+```{r vim-summary}
 summary(vim_result)
 ```
 
 Wizualizacja z pakietem `naniar`.
 
-```{r}
+```{r naniar-vis-miss}
 vis_miss(df_cross)
 ```
-```{r}
+```{r naniar-vis-miss-cluster}
 vis_miss(df_cross, cluster = T, sort_miss = T)
 ```
-```{r}
+```{r naniar-gg-miss-var}
 gg_miss_var(df_cross)
 ```
-```{r}
+```{r naniar-gg-miss-upset}
 gg_miss_upset(df_cross)
 ```
 
-```{r}
+```{r ggplot-point}
 ggplot(data=df_cross, aes(x = x1, y)) + geom_point()
 ```
 
-```{r}
+```{r ggplot-miss-point}
 ggplot(data=df_cross, aes(x = x1, y)) + geom_miss_point()
 ```
 
@@ -80,26 +80,26 @@ ggplot(data=df_cross, aes(x = x1, y)) + geom_miss_point()
 Wczytujemy dane w dwóch formatach: `data/data2-panel_long.csv`, `data/data2-panel_wide.csv`
 
 
-```{r}
+```{r wczytanie-long}
 df_long <- read.csv("../../data/data2-panel_long.csv")
 head(df_long)
 ```
 
-```{r}
+```{r wczytanie-wide}
 df_wide <- read.csv("../../data/data2-panel_wide.csv")
 head(df_wide)
 ```
 
-```{r}
+```{r vim-aggr-wide}
 VIM::aggr(df_wide)
 ```
 
 Przykład przejścia z danych long na wide (z `data.table`)
 
-```{r}
+```{r long2wide-dt}
 df_long |>
   subset(select=c(unit_id, year, y)) |>
-  setDT() |> 
+  setDT() |>
   dcast(unit_id ~ year, value.var = "y") |>
   VIM::aggr(plot = F)  |>
   summary()
@@ -107,7 +107,7 @@ df_long |>
 
 Przykład przejścia z danych long na wide (z `tidyverse`)
 
-```{r}
+```{r long2wide-tidy}
 df_long |>
   select(unit_id, year, y) |>
   pivot_wider(names_from = year, values_from = y) |>
@@ -115,14 +115,14 @@ df_long |>
   summary()
 ```
 
-```{r}
+```{r panelview-y}
 panelview(data = df_long, formula = y ~ 1, index = c("unit_id", "year"), type = "missing")
 ```
 
-```{r}
+```{r panelview-x2}
 panelview(data = df_long, formula = x2 ~ 1, index = c("unit_id", "year"), type = "missing")
 ```
-```{r}
+```{r panelview-all}
 panelview(data = df_long, formula = 1 ~ y + x1 + x2, index = c("unit_id", "year"), type = "missing")
 ```
 

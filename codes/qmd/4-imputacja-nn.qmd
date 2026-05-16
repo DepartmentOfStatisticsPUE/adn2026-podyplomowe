@@ -112,18 +112,18 @@ abline(a=0,b=0,col="red")
 
 Relatywne obciązenie estymatora
 
-```{r}
+```{r relatywne-obciazenie}
 round((colMeans(results) - rep(y_true, times = 3)) / colMeans(results)*100,2)
 ```
 Wariancja
 
-```{r}
+```{r wariancja}
 round(apply(results, 2, var)*100,4)
 ```
 
 RMSE
 
-```{r}
+```{r rmse}
 bias <- (colMeans(results) - rep(y_true, times = 3))
 round(sqrt(bias^2 + apply(results, 2, var))*100,2)
 ```
@@ -161,16 +161,16 @@ gower::gower_dist(x = dane[1, ],
 # Przyklad 3
 
 
-```{r}
+```{r wczytanie-czytelnictwo}
 ## reading
-data <- read.csv(file = "../../data/data4-czytelnictwo.csv", 
+data <- read.csv(file = "../../data/data4-czytelnictwo.csv",
                  colClasses = c("factor", "numeric", "factor", "logical", "logical"))
 
 ```
 
-```{r}
+```{r glm-braki}
 glm(I(is.na(czyta_ksiazki_z_brakami)) ~ plec + wiek + wyksztalcenie,
-    data = data) |> 
+    data = data) |>
   summary()
 ```
 

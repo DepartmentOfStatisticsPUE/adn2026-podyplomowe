@@ -17,49 +17,49 @@ lang: pl
 
 ## Kodowanie braków danych
 
-```{r}
+```{r x1-summary}
 x1 <- c(1,2,3,NA)
 summary(x1)
 ```
 
-```{r}
+```{r x1-table}
 table(x1)
 ```
 
-```{r}
+```{r x1-table-na}
 table(x1, useNA = "ifany")
 ```
 
-```{r}
+```{r x1-mean}
 mean(x1)
 ```
 
-```{r}
+```{r x1-mean-narm}
 mean(x1, na.rm = T)
 ```
 
-```{r}
+```{r x1-naomit}
 na.omit(x1)
 ```
 
-```{r}
+```{r x2-create}
 x2 <- c(1,2,3, NA, NaN)
 ```
 
-```{r}
+```{r x2-summary}
 summary(x2)
 ```
 
-```{r}
+```{r x2-mean-narm}
 mean(x2, na.rm=T)
 ```
 
-```{r}
+```{r x2-table}
 table(x2)
 table(x2, useNA = "ifany")
 ```
 
-```{r}
+```{r x2-naomit}
 na.omit(x2)
 ```
 
@@ -69,12 +69,12 @@ na.omit(x2)
 ### Dane wczytywane z plików
 
 
-```{r}
+```{r wczytanie-csv}
 dane <- read.csv("../../data/plik-przyklad.csv")
 head(dane)
 ```
 
-```{r}
+```{r csv-tail}
 tail(dane)
 ```
 
@@ -82,7 +82,7 @@ Plik zawiera różne sposoby kodowania braków danych? Jakie? Jak to ustawić (h
 
 Co z korelacją? Jak wyznaczyć korelację między np. wiekiem, wzrostem i oceną gdy występują braki danych?
 
-```{r, eval = FALSE}
+```{r csv-cor, eval = FALSE}
 with(dane, cor(wzrost, ocena))
 ```
 
@@ -91,26 +91,26 @@ with(dane, cor(wzrost, ocena))
 W tym miejscu omówiony zostanie zbiór danych z Badania Kapitału Ludzkiego.
 
 
-```{r}
+```{r pakiet-haven}
 library(haven)
 ```
 
-```{r}
-doc <- read_spss("https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav")
+```{r bkl-wczytanie}
+doc <- read_spss("../../data/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav")
 str(doc$m9_1,2)
 ```
 
-```{r}
+```{r bkl-m9-table}
 table(doc$m9_1)
 table(doc$m9_1, useNA = "ifany")
 ```
 
-```{r}
-doc <- read_spss("https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav", user_na = T)
+```{r bkl-wczytanie-userna}
+doc <- read_spss("../../data/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav", user_na = T)
 str(doc$m9_1,2)
 ```
 
-```{r}
+```{r bkl-m9-table-userna}
 table(doc$m9_1)
 table(doc$m9_1, useNA = "ifany")
 ```

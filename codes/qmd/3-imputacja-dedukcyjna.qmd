@@ -40,40 +40,40 @@ Dane są posortowane wg liczby pokoi (`liczba_pokoi`) i zawierają następujące
 
 Cel: zaimputowanie brakujących wartości.
 
-```{r}
+```{r wczytanie-dane}
 dane <- read.csv("../../data/data3-przyklad-imputacji.csv")
 head(dane)
 ```
 
-```{r}
-dane |> 
+```{r fill-tidyr}
+dane |>
   fill(liczba_pokoi)
 ```
 
-```{r}
+```{r locf-zoo}
 zoo::na.locf(dane$liczba_pokoi)
 ```
 
-```{r}
+```{r locf-dt}
 data.table::nafill(dane$liczba_pokoi, "locf")
 ```
 
 Operacja typu `inplace`.
 
-```{r}
+```{r locf-dt-inplace}
 data.table::setnafill(dane, "locf", cols = c("liczba_pokoi"))
 dane
 ```
 
 Na podstawie nr identyfikatora powiatu -> województwo
 
-```{r}
+```{r substr-teryt}
 substr("1465011", 1, 2)
 ```
 
 `powierzchnia` -- na podstwie wyrażen regularnych
 
-```{r}
+```{r regex-powierzchnia}
 str_extract("Przytulna kawalerka 32,1m2, 1 pokój w centrum!", "\\d{2},\\d{1}")
 ```
 
@@ -97,7 +97,7 @@ mieszkanie <- data.frame(
 
 Wykorzystanie [ollama](https://ollama.com), modelu małego modelu `qwen3:8b` oraz pakietu [`ellmer`](https://ellmer.tidyverse.org) i strukturyzowanej odpowiedzi.
 
-```{r, eval=FALSE}
+```{r ollama-chat, eval=FALSE}
 chat <- chat_ollama(model = "qwen3:4b",
                     params = params(temperature = 0),
                     seed = 2025)
@@ -115,7 +115,7 @@ wynik <- chat$chat_structured(
 ```
 Wynik
 
-```{r, eval = F}
+```{r ollama-wynik1, eval = F}
 $floor_area
 [1] 32.1
 
@@ -128,7 +128,7 @@ $number_of_rooms
 
 Dla tego przykładu
 
-```{r, eval = FALSE}
+```{r ollama-chat-apartament, eval = FALSE}
 wynik <- chat$chat_structured(
      "Luksusowy apartament 85m2, 4 pokoje",
      type = type_apartment
@@ -137,7 +137,7 @@ wynik <- chat$chat_structured(
 
 Dostajemy
 
-```{r, eval = FALSE}
+```{r ollama-wynik-apartament, eval = FALSE}
 > wynik
 $floor_area
 [1] 85
@@ -151,7 +151,7 @@ $number_of_rooms
 
 ale dla tego
 
-```{r, eval = F}
+```{r ollama-chat-kompaktowe, eval = F}
 wynik <- chat$chat_structured(
      "Kompaktowe mieszkanie 30m2 w świetnej lokalizacji",
      type = type_apartment
@@ -160,12 +160,12 @@ wynik <- chat$chat_structured(
 
 zwraca informacje o tym, że jest to kawalerka (nie wiemy tego) oraz liczbie pokoi (tez nie ma tej informacji)
 
-```{r, eval = F}
+```{r ollama-wynik-kompaktowe, eval = F}
 > wynik
 $floor_area
 [1] 30
 
-$is_studio 
+$is_studio
 [1] TRUE
 
 $number_of_rooms
@@ -179,7 +179,7 @@ $number_of_rooms
 
 Przykład 1 z zajęć
 
-```{r}
+```{r przyklad1-rownania}
 # Znane wartości
 x1 <- 100
 x4 <- 40
@@ -210,7 +210,7 @@ x_m
 
 Przykład 2 z zajęć
 
-```{r}
+```{r przyklad2-rownania}
 # Definiujemy macierze
 Am <- matrix(c(1, -1, -1, 0), nrow = 2, byrow = TRUE)
 Ao <- matrix(c(1, 2), nrow = 2, ncol = 1)
@@ -225,23 +225,23 @@ xm
 
 Z wykorzystaniem pakietu `validate` i `deducorrect` (tylko R)
 
-```{r}
+```{r validator-v}
 v <- validate::validator(
       x1 + x2 == x3,
       x4 + x5 == x1)
 v
 ```
 
-```{r}
+```{r dat-przyklad}
 dat <- data.frame(x1 = 100, x2=NA_real_, x3=150, x4 = 40, x5 = NA_real_)
 dat
 ```
 
-```{r}
+```{r impute-lr-dat}
 impute_lr(dat,v)
 ```
 
-```{r}
+```{r impute-lr-v1-v2}
 v1 <- validate::validator(
       x1 + x2 == x3,
       x4 + x5 == x1,

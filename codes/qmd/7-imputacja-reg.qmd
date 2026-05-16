@@ -16,7 +16,7 @@ lang: pl
 # Wczytanie potrzebych pakietów
 
 
-```{r, message = FALSE, warning=FALSE}
+```{r pakiety, message = FALSE, warning=FALSE}
 library(simputation)
 library(naniar)
 library(ggplot2)
@@ -29,7 +29,7 @@ library(data.table)
 
 Generujemy dane
 
-```{r}
+```{r generowanie-danych}
 set.seed(2025)
 n <- 1000
 x <- rnorm(n)
@@ -43,9 +43,9 @@ head(sim_data)
 
 Imputujemy na 3 sposoby, funkcje `bind_shadow()` i `add_label_shadow()` pochodzą z pakietu `naniar`.
 
-```{r}
+```{r imputacja-lm-3-warianty}
 set.seed(2025)
-sim_data <- sim_data |> 
+sim_data <- sim_data |>
   bind_shadow() |>
   impute_lm(y1 ~ x, add_residual = "none") |>
   impute_lm(y2 ~ x, add_residual = "observed") |>
@@ -54,11 +54,11 @@ sim_data <- sim_data |>
 ```
 
 Wizualizacja braków danych
-```{r}
+```{r wizualizacja-imputacji}
 ggplot(sim_data,
        aes(x = x,
            y = y1,
-           color = any_missing)) + 
+           color = any_missing)) +
   geom_point() +
   scale_color_brewer(palette = "Dark2") +
   theme(legend.position = "bottom") +
@@ -67,7 +67,7 @@ ggplot(sim_data,
 ggplot(sim_data,
        aes(x = x,
            y = y2,
-           color = any_missing)) + 
+           color = any_missing)) +
   geom_point() +
   scale_color_brewer(palette = "Dark2") +
   theme(legend.position = "bottom")  +
@@ -76,7 +76,7 @@ ggplot(sim_data,
 ggplot(sim_data,
        aes(x = x,
            y = y3,
-           color = any_missing)) + 
+           color = any_missing)) +
   geom_point() +
   scale_color_brewer(palette = "Dark2") +
   theme(legend.position = "bottom") +

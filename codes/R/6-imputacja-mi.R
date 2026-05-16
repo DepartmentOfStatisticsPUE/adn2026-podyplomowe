@@ -3,8 +3,6 @@
 
 library(mice)
 
-
-
 # # Przykład 1 z zajęć
 
 # Przykładowe dane 

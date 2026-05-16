@@ -15,21 +15,21 @@ lang: pl
 
 # Wczytanie potrzebych pakietów
 
-```{r, message = FALSE, warning=FALSE}
+```{r pakiety, message = FALSE, warning=FALSE}
 library(mice)
 ```
 
 
 # Przykład 1 z zajęć
 
-Przykładowe dane 
+Przykładowe dane
 
-```{r}
+```{r przyklad-dane}
 set.seed(2025)
 n_rows <- 20
 df_example <- data.frame(
-  A = seq(1:n_rows)*2, 
-  B = 5 + seq(1:n_rows)*2 + 10*rnorm(n_rows), 
+  A = seq(1:n_rows)*2,
+  B = 5 + seq(1:n_rows)*2 + 10*rnorm(n_rows),
   C = 2+sqrt(seq(1:n_rows)) + rnorm(n_rows)
 )
 df_example_miss <- df_example
@@ -41,25 +41,25 @@ df_example_miss
 
 Imputacja z wykorzystaniem metody wielokrotnej imputacji
 
-```{r}
+```{r mice-m1}
 df_example_imp <- mice(df_example_miss, m=1, seed = 2025)
 ```
 
 Informacja dotycząca metody i zależności w danych
 
-```{r}
+```{r mice-info}
 df_example_imp
 ```
 
 Pełny zbiór danych
 
-```{r}
+```{r mice-complete}
 complete(df_example_imp)
 ```
 
 Podsumowanie średnich
 
-```{r}
+```{r srednie-porownanie}
 colMeans(df_example) ## bez braków
 colMeans(df_example_miss, na.rm=T) ## z brakami
 colMeans(complete(df_example_imp)) ## po imputacji
@@ -71,7 +71,7 @@ Zmiany:
 - określamy inną metodę
 - okreslamy zależnosci w danych (B i C zależne tylko od A)
 
-```{r}
+```{r pred-mat}
 pred_mat <- df_example_imp$predictorMatrix
 pred_mat["C", "B"] <- 0
 pred_mat["B", "C"] <- 0
@@ -80,52 +80,52 @@ pred_mat
 
 
 
-```{r}
-df_example_imp <- mice(data = df_example_miss, 
-                       m=4, 
-                       method = "rf", 
-                       predictorMatrix = pred_mat, 
+```{r mice-rf-m4}
+df_example_imp <- mice(data = df_example_miss,
+                       m=4,
+                       method = "rf",
+                       predictorMatrix = pred_mat,
                        seed = 2025)
 ```
 
 
-```{r}
+```{r mice-rf-info}
 df_example_imp
 ```
 
-```{r}
+```{r mice-rf-complete}
 complete(df_example_imp, 1)
 complete(df_example_imp, 3)
 ```
 
-```{r}
+```{r mice-rf-srednie}
 sapply(complete(df_example_imp, "all"), colMeans)
 
-sapply(complete(df_example_imp, "all"), colMeans) |> 
+sapply(complete(df_example_imp, "all"), colMeans) |>
   apply(MARGIN = 1, FUN = mean)
 ```
 
 Bez braków
-```{r}
+```{r srednie-bez-brakow}
 colMeans(df_example) ## bez braków
 ```
 
 Regresja
 
-```{r}
+```{r mice-lm}
 lm_results <- with(df_example_imp, lm(C ~ A))
 str(lm_results,1)
 ```
 
-```{r}
+```{r mice-pool}
 pool(lm_results)
 ```
 
-```{r}
+```{r mice-pool-summary}
 summary(pool(lm_results))
 ```
 
-```{r}
+```{r porownanie-lm}
 coef(summary(lm(C~A, df_example)))
 coef(summary(lm(C~A, df_example_miss)))
 ```
@@ -133,27 +133,27 @@ coef(summary(lm(C~A, df_example_miss)))
 
 # Przyklad użycia pakietu `MIDAS`
 
-```{r ,eval=FALSE}
+```{r midas-wczytanie, eval=FALSE}
 adult <- read.csv("https://raw.githubusercontent.com/MIDASverse/MIDASpy/master/Examples/adult_data.csv",row.names = 1)[1:1000,]
 ```
 
-```{r ,eval=FALSE}
+```{r midas-braki, eval=FALSE}
 set.seed(89)
 adult <- add_missingness(adult, prop = 0.1)
 ```
 
-```{r ,eval=FALSE}
+```{r midas-convert, eval=FALSE}
 adult_cat <- c('workclass','marital_status','relationship','race','education','occupation','native_country')
 adult_bin <- c('sex','class_labels')
 
 # Apply rMIDAS preprocessing steps
-adult_conv <- convert(adult, 
-                      bin_cols = adult_bin, 
+adult_conv <- convert(adult,
+                      bin_cols = adult_bin,
                       cat_cols = adult_cat,
                       minmax_scale = TRUE)
 ```
 
-```{r ,eval=FALSE}
+```{r midas-train, eval=FALSE}
 adult_train <- train(adult_conv,
                        training_epochs = 20,
                        layer_structure = c(128,128),
@@ -161,12 +161,12 @@ adult_train <- train(adult_conv,
                        seed = 89)
 ```
 
-```{r ,eval=FALSE}
+```{r midas-complete, eval=FALSE}
 adult_complete <- complete(adult_train, m = 10)
 ```
 
-```{r ,eval=FALSE}
-adult_model <- combine("class_labels ~ hours_per_week + sex", 
+```{r midas-combine, eval=FALSE}
+adult_model <- combine("class_labels ~ hours_per_week + sex",
                     adult_complete,
                     family = stats::binomial)
 

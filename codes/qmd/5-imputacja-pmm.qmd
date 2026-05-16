@@ -15,22 +15,22 @@ lang: pl
 
 # Wczytanie potrzebych pakietów
 
-```{r}
+```{r pakiety}
 library(simputation)
-library(FNN) 
+library(FNN)
 ```
 
 
 # Przykład 1 z zajęć
 
 
-```{r}
+```{r przyklad1-dane}
 przyklad1 <- data.frame(X = seq(10, 35, by=5),
                         Y = c(25, 35, NA, 55, 65, NA))
 przyklad1
 ```
 
-```{r}
+```{r przyklad1-pmm}
 przyklad1 |>
   impute_pmm(formula = Y~ X,
              predictor = impute_lm)
@@ -38,13 +38,13 @@ przyklad1 |>
 
 Step-by-step (dla $k=1$)
 
-```{r}
+```{r przyklad1-knn-k1}
 ## model liniowy
 model1 <- lm(formula = Y~X, data=przyklad1)
 ## wartości przewidywane
 przyklad1$pred <- predict(model1, przyklad1)
 ## wyszukiwanie najbliższego sąsiada
-sasiedzi <- get.knnx(data = przyklad1[!is.na(przyklad1$Y), "pred"], 
+sasiedzi <- get.knnx(data = przyklad1[!is.na(przyklad1$Y), "pred"],
                      query = przyklad1[is.na(przyklad1$Y), "pred"],
                      k = 1)
 ## przepisujemy wartości najbliższego sąsiada
@@ -55,9 +55,9 @@ przyklad1_wynik
 
 Step-by-step (dla $k=2$)
 
-```{r}
+```{r przyklad1-knn-k2}
 ## wyszukiwanie najbliższego sąsiada
-sasiedzi <- get.knnx(data = przyklad1[!is.na(przyklad1$Y), "pred"], 
+sasiedzi <- get.knnx(data = przyklad1[!is.na(przyklad1$Y), "pred"],
                      query = przyklad1[is.na(przyklad1$Y), "pred"],
                      k = 2)
 sasiedzi
@@ -73,7 +73,7 @@ przyklad1_wynik
 
 Prosze wykonać imputację danych dla następującego zbioru danych
 
-```{r}
+```{r cwiczenie-df}
 set.seed(42)
 n <- 10
 
@@ -93,21 +93,21 @@ df
 
 
 
-```{r}
+```{r wczytanie-czytelnictwo}
 ## reading
-data <- read.csv(file = "../../data/data4-czytelnictwo.csv", 
+data <- read.csv(file = "../../data/data4-czytelnictwo.csv",
                  colClasses = c("factor", "numeric", "factor", "logical", "logical"))
 head(data)
 ```
 
-```{r}
+```{r summary-czytelnictwo}
 summary(data)
 ```
 
 Dodajemy kopię kolumny `czyta_ksiazki_z_brakami` aby porównać imputację
 PMM i NNI.
 
-```{r}
+```{r kopie-kolumn}
 data$czyta_ksiazki_z_brakami_nni <- data$czyta_ksiazki_z_brakami
 data$czyta_ksiazki_z_brakami_pmm <- as.numeric(data$czyta_ksiazki_z_brakami) ## musimy zamienić na braki numeryczny (patrz poniżej)
 ```
@@ -120,14 +120,14 @@ Ograniczenia `simputation`:
 + nie ma `impute_glm`
 + nie można ustawić różnej liczby `k` (domyślnie 1)
 
-```{r}
-data |> 
+```{r imputacja-pmm-nni}
+data |>
   impute_pmm(formula = czyta_ksiazki_z_brakami_pmm ~ plec + wiek + wyksztalcenie)  |>
   impute_knn(czyta_ksiazki_z_brakami_nni ~ plec + wiek + wyksztalcenie, k = 1) -> imputacja_wynik
 ```
 
-```{r}
-aggregate(cbind(True=czyta_ksiazki, 
+```{r porownanie-imputacji}
+aggregate(cbind(True=czyta_ksiazki,
                 NNI=czyta_ksiazki_z_brakami_nni,
                 PMM = czyta_ksiazki_z_brakami_pmm) ~ 1, imputacja_wynik, FUN=mean)
 ```
@@ -229,7 +229,7 @@ abline(a=0,b=0,col="red")
 ```
 Obciążenie
 
-```{r}
+```{r obciazenie-symulacja}
 (colMeans(results) - rep(y_true, times = 3))*100
 ```
 

@@ -67,7 +67,7 @@ lang: pl
 
 Kod na wczytanie pakietu do wczytania danych
 
-```{r}
+```{r pakiety}
 library(readxl)
 library(simputation)
 library(VIM)
@@ -76,14 +76,14 @@ library(ggplot2)
 library(patchwork)
 ```
 
-```{r}
+```{r wczytanie-gosp}
 gosp <- read_excel("../../data/gospodarstwa-zajecia.xlsx") |> setDT()
 head(gosp)
 ```
 
 Kod na wizualizacje i ocenę danych
 
-```{r}
+```{r wizualizacja-rozkladow}
 hist(gosp$wydg)
 hist(gosp$wydg, breaks = "fd")
 hist(gosp$dochg, breaks = "fd")
@@ -95,7 +95,7 @@ boxplot(wydg ~ round(los), gosp)
 summary(aggr(gosp[, c("los", "wydg", "dochg")]))
 ```
 
-```{r}
+```{r analiza-zmiennych}
 gosp[, names(gosp)[1:13] := lapply(.SD, as.factor), .SDcols = names(gosp)[1:13]]
 gosp[, los:= floor(los)]
 table(gosp$d38, gosp$los)
@@ -108,7 +108,7 @@ car::Anova(lm(log(wydg) ~ d61 + klm + woj + trb + zut, data=gosp))
 
 Kod na imputację danych
 
-```{r}
+```{r imputacja-metody}
 set.seed(2025)
 gosp$flag <- is.na(gosp$los)
 gosp_naraz_pmm <- gosp |>
@@ -148,7 +148,7 @@ gosp_pokolei_regs <- gosp |>
 
 Kod na podsumowanie danych
 
-```{r}
+```{r tabela-wynikow}
 tab_wyniki <- rbind(
   colMeans(gosp_naraz_pmm[, c("los", "dochg", "wydg")]),
   colMeans(gosp_naraz_knn[, c("los", "dochg", "wydg")]),
@@ -166,7 +166,7 @@ tab_wyniki
 mean(gosp$los,na.rm=T)
 ```
 
-```{r}
+```{r porownanie-rozkladow}
 p1 <- ggplot(data=gosp_naraz_knn, aes(x = log(wydg), fill = flag)) +
   geom_density(alpha = 0.5) + labs(title = "knn")
 p2 <- ggplot(data=gosp_naraz_pmm, aes(x = log(wydg), fill = flag)) +

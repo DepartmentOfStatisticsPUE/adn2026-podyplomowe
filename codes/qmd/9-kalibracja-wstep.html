@@ -2390,7 +2390,7 @@ window.Quarto = {
 <h2 data-number="2.1" class="anchored" data-anchor-id="podejście-krok-po-kroku"><span class="header-section-number">2.1</span> Podejście krok po kroku</h2>
 <p>Wczytujemy dane</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dane <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;../data/data5-kalibracja.csv&quot;</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dane <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;../../data/data5-kalibracja.csv&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dane)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Lp Przychod Wielkosc Waga
@@ -2487,9 +2487,9 @@ window.Quarto = {
 <section id="sposób-3-wykorzystanie-dostępnych-pakietów" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="sposób-3-wykorzystanie-dostępnych-pakietów"><span class="header-section-number">2.3</span> Sposób 3: Wykorzystanie dostępnych pakietów</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>wskaznik <span class="ot">&lt;-</span> <span class="fu">calib</span>(<span class="at">Xs =</span> Xs, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">d=</span>dane<span class="sc">$</span>Waga, </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;linear&quot;</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>wskaznik <span class="ot">&lt;-</span> <span class="fu">calib</span>(<span class="at">Xs =</span> Xs,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">d=</span>dane<span class="sc">$</span>Waga,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;linear&quot;</span>,</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">total =</span> wartosci_globalne)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>w2 <span class="ot">&lt;-</span> dane<span class="sc">$</span>Waga<span class="sc">*</span>wskaznik</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

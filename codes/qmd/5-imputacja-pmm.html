@@ -2381,7 +2381,7 @@ window.Quarto = {
 <h1 data-number="1"><span class="header-section-number">1</span> Wczytanie potrzebych pakietów</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simputation)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FNN) </span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FNN)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="przykład-1-z-zajęć" class="level1" data-number="2">
@@ -2421,7 +2421,7 @@ window.Quarto = {
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## wartości przewidywane</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>przyklad1<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model1, przyklad1)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wyszukiwanie najbliższego sąsiada</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>sasiedzi <span class="ot">&lt;-</span> <span class="fu">get.knnx</span>(<span class="at">data =</span> przyklad1[<span class="sc">!</span><span class="fu">is.na</span>(przyklad1<span class="sc">$</span>Y), <span class="st">&quot;pred&quot;</span>], </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>sasiedzi <span class="ot">&lt;-</span> <span class="fu">get.knnx</span>(<span class="at">data =</span> przyklad1[<span class="sc">!</span><span class="fu">is.na</span>(przyklad1<span class="sc">$</span>Y), <span class="st">&quot;pred&quot;</span>],</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">query =</span> przyklad1[<span class="fu">is.na</span>(przyklad1<span class="sc">$</span>Y), <span class="st">&quot;pred&quot;</span>],</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">k =</span> <span class="dv">1</span>)</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## przepisujemy wartości najbliższego sąsiada</span></span>
@@ -2441,7 +2441,7 @@ window.Quarto = {
 <p>Step-by-step (dla <span class="math inline">\(k=2\)</span>)</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## wyszukiwanie najbliższego sąsiada</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sasiedzi <span class="ot">&lt;-</span> <span class="fu">get.knnx</span>(<span class="at">data =</span> przyklad1[<span class="sc">!</span><span class="fu">is.na</span>(przyklad1<span class="sc">$</span>Y), <span class="st">&quot;pred&quot;</span>], </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sasiedzi <span class="ot">&lt;-</span> <span class="fu">get.knnx</span>(<span class="at">data =</span> przyklad1[<span class="sc">!</span><span class="fu">is.na</span>(przyklad1<span class="sc">$</span>Y), <span class="st">&quot;pred&quot;</span>],</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">query =</span> przyklad1[<span class="fu">is.na</span>(przyklad1<span class="sc">$</span>Y), <span class="st">&quot;pred&quot;</span>],</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">k =</span> <span class="dv">2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>sasiedzi</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2507,7 +2507,7 @@ $nn.dist
 <h1 data-number="4"><span class="header-section-number">4</span> Przykład 2 – czytelnictwo</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## reading</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;../data/data4-czytelnictwo.csv&quot;</span>, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;../../data/data4-czytelnictwo.csv&quot;</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colClasses =</span> <span class="fu">c</span>(<span class="st">&quot;factor&quot;</span>, <span class="st">&quot;numeric&quot;</span>, <span class="st">&quot;factor&quot;</span>, <span class="st">&quot;logical&quot;</span>, <span class="st">&quot;logical&quot;</span>))</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2560,12 +2560,12 @@ $nn.dist
 <li>nie można ustawić różnej liczby <code>k</code> (domyślnie 1)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">impute_pmm</span>(<span class="at">formula =</span> czyta_ksiazki_z_brakami_pmm <span class="sc">~</span> plec <span class="sc">+</span> wiek <span class="sc">+</span> wyksztalcenie)  <span class="sc">|&gt;</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">impute_knn</span>(czyta_ksiazki_z_brakami_nni <span class="sc">~</span> plec <span class="sc">+</span> wiek <span class="sc">+</span> wyksztalcenie, <span class="at">k =</span> <span class="dv">1</span>) <span class="ot">-&gt;</span> imputacja_wynik</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(<span class="at">True=</span>czyta_ksiazki, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(<span class="at">True=</span>czyta_ksiazki,</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">NNI=</span>czyta_ksiazki_z_brakami_nni,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">PMM =</span> czyta_ksiazki_z_brakami_pmm) <span class="sc">~</span> <span class="dv">1</span>, imputacja_wynik, <span class="at">FUN=</span>mean)</span></code></pre></div><button title="Kopiuj do schowka" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

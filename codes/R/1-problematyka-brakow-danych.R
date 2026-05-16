@@ -66,7 +66,7 @@ tail(dane)
 library(haven)
 
 
-doc <- read_spss("https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav")
+doc <- read_spss("data/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav")
 str(doc$m9_1,2)
 
 
@@ -74,7 +74,7 @@ table(doc$m9_1)
 table(doc$m9_1, useNA = "ifany")
 
 
-doc <- read_spss("https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav", user_na = T)
+doc <- read_spss("data/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav", user_na = T)
 str(doc$m9_1,2)
 
 
