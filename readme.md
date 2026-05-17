@@ -2,7 +2,7 @@
 
 ## Podstawowe informacje
 
-+ [Slajdy](https://www.overleaf.com/read/cnrspnsgtjpr#3639e7)
++ [Slajdy](https://www.overleaf.com/read/qcnhbsqzpcyv#eb7182)
 
 ## Organizacja kodów
 
